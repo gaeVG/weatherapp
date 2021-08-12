@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { useForm } from "react-hook-form"
 
 import { SearchContext } from "../App"
-import City from "../components/City"
+import City from "../components/City/City"
 
 import "./Home.css"
 
