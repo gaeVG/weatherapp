@@ -1,27 +1,61 @@
+import { useContext } from "react"
 import { useForm } from "react-hook-form"
+
+import { SearchContext } from "../App"
+import City from "../components/City"
 
 import "./Home.css"
 
-const Home = props => { 
+const Home = () => { 
 
-    const {
-        register, handleSubmit, watch, formState : { errors }
+	const context = useContext(SearchContext)
 
-    } = useForm()
+	const {
+		register, handleSubmit, watch, formState : { errors }
 
-    const onSubmit = data => {
-        props.handleSearch(data)
-    }
-    
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input defaultValue="" {
-                ...register("city", { require : true })
-            } />
+	} = useForm()
 
-            { errors.city && <p>Problème</p> }
-        </form>
-    )
+	const onSubmit = data => {
+		context.search(data)
+	}
+
+	return (
+		<div className="container">
+			<div className="row">
+
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<input defaultValue="" {
+						...register("city", { require : true })
+					} />
+					{
+						Object.keys(context.currentCity).length > 0
+						?
+							context.currentCity.error
+							?
+								<small>Erreur {context.currentCity.error}</small>
+							:
+								null
+						:
+							null
+					}
+					{ errors.city && <small>Problème</small> }
+				</form>
+
+				{
+					Object.keys(context.currentCity).length > 0
+					?
+						!context.currentCity.error
+						?
+							<City data ={context.currentCity} />
+						:
+							null
+					: null
+				}
+			</div>
+			
+
+		</div>
+	)
 }
 
 export default Home
