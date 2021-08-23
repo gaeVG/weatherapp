@@ -4,6 +4,10 @@
   color: #FFF !important
 }
 
+header li {
+  margin-right: 2rem;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
