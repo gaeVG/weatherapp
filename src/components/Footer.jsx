@@ -1,6 +1,6 @@
 const Footer = () =>
-	<div className="container-fluid">
+	<footer className="container-fluid">
 		© gaeV, 12/08/2021 
-	</div>
+	</footer>
 
 export default Footer
