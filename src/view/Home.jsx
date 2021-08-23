@@ -1,7 +1,8 @@
 import { useContext } from "react"
-import { useForm } from "react-hook-form"
 
 import { SearchContext } from "../App"
+
+import Search from "../components/Search"
 import City from "../components/City/City"
 
 import "./Home.css"
@@ -10,51 +11,33 @@ const Home = () => {
 
 	const context = useContext(SearchContext)
 
-	const {
-		register, handleSubmit, watch, formState : { errors }
-
-	} = useForm()
-
-	const onSubmit = data => {
-		context.search(data)
-	}
-
 	return (
-		<div className="container">
+		<main className="container-fluid">
 			<div className="row">
+				
+				<div className="col-4 ms-5 text-center">
 
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<input defaultValue="" {
-						...register("city", { require : true })
-					} />
-					{
-						Object.keys(context.currentCity).length > 0
-						?
-							context.currentCity.error
+						{
+							Object.keys(context.currentCity).length > 0
 							?
-								<small>Erreur {context.currentCity.error}</small>
-							:
-								null
-						:
-							null
-					}
-					{ errors.city && <small>Problème</small> }
-				</form>
+								!context.currentCity.error
+								?
+									<City data ={context.currentCity} />
+								:
+									null
+							: null
+						}
 
-				{
-					Object.keys(context.currentCity).length > 0
-					?
-						!context.currentCity.error
-						?
-							<City data ={context.currentCity} />
-						:
-							null
-					: null
-				}
+				</div>
+
+				<div className="col-6 text-center">
+					<Search />
+				</div>
+
 			</div>
 			
-
-		</div>
+		</main>
+		
 	)
 }
 

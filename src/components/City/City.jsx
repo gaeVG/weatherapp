@@ -1,8 +1,14 @@
-import { toC } from "../../App"
-import styled from "styled-component"
+import { useContext } from "react"
+import styled from 'styled-components'
 
+import iClearDay from "./icons/clear_day.png"
+
+import { toC } from "../../App"
+import { FavoriteContext } from "../../App"
 
 const City = city => {
+
+	const context = useContext(FavoriteContext)
 
 	const getIcon = (weather) => {
 	
@@ -14,14 +20,30 @@ const City = city => {
 		}
 	}
 
-	const Icon = styled.div`
-		background-image : url("./icon/${getIcon(city.data.weather[0].description)}");
+	const toC = K => {
+		return Math.floor(K - 273.15)
+	}
+
+	const Icon = styled.span`
+		background-image : ${iClearDay};
 	`;
 
-	
+	const addFavorite = () => {
+		let favorites = context.favorites
+
+		if (favorites.length < 3) {
+
+			if (!favorites.includes(city.data.name)) {
+				favorites.push(city.data.name)
+			}
+		}
+
+		context.setFavorites(favorites)	
+	}
+
 
 	return (
-		<div className="card col-4 mx-auto">
+		<div className="card col-12">
 			<div className="card-header">
 				{city.data.name}
 			</div>
@@ -35,9 +57,23 @@ const City = city => {
 					{city.data.weather[0].description}
 				</p>
 
-				<a href="favorite.html" className="btn btn-primary">
-					Add Favorite
-				</a>
+				<div className="d-flex justify-content-around">
+					<button className="btn btn-primary" onClick={addFavorite}>
+						Add Favorite
+					</button>
+
+					{
+						context.favorites.includes(city.data.name)
+						?
+							<button className="btn btn-danger" onClick={addFavorite}>
+								Remove Favorite
+							</button>
+						:
+							null
+					}
+				</div>
+
+				
 			</div>
 
 		</div>
